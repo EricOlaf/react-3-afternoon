@@ -12,8 +12,8 @@ import Edit from './Edit/Edit';
 //////////////////////////////////////////////////////// THIS COMPONENT IS BEING RENDERED IN THE *APP* COMPONENT
 
 export default class Post extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       editing: false,
@@ -54,6 +54,17 @@ export default class Post extends Component {
       // const editing = this.state.editing
       // const showMasterMenu = this.state.showMasterMenu
     const { editing, showMasterMenu } = this.state;
+    const { text, date, id, updatePostFn, deletePostFn } = this.props;
+  //   /*
+  //   props = {
+  //     text: text,
+  //     date: date,
+  //     id: id,
+  //     updatePostFn: updatePostFn
+  //   }
+  //   */
+  //  const text = this.props.text;
+  //  const date = this.props.date;
 
     return (
       // Main body of post
@@ -65,7 +76,7 @@ export default class Post extends Component {
 
           {/* Drop-down menu. Remember that the "showMasterMenu" variable has been destructured off of this.state */}
           <div className="Post__master-menu" style={ { display: showMasterMenu ? 'flex' : 'none' } }>
-            <span onClick={ this.showEdit }>Edit</span>
+            <span onClick={ () => deletePostFn(id) }>Delete</span>
             <span>Delete</span>
           </div>
         </div>
@@ -79,7 +90,7 @@ export default class Post extends Component {
           <span className="Post__name">DevMountain</span>
           <span className="Post__handle">@DevMountain</span>
 
-          <span className="Post__date">- POST DATE GOES HERE</span>
+          <span className="Post__date">- {date}</span>
         </div>
 
         {/* This is where the text goes. Notice the turnary statement. The turnary statement decides to display either the text OR the editor view
@@ -95,10 +106,12 @@ export default class Post extends Component {
             // This has been pulled off of this.state via destructuring
             editing
             ?
-              <Edit text=""
-                    hideEdit={ this.hideEdit } />
+              <Edit text={text}
+                    id={id}
+                    hideEdit={ this.hideEdit }
+                    updatePostFn={updatePostFn} />
             :
-              <span className="Post__text">POST TEXT GOES HERE</span>
+              <span className="Post__text">{text}</span>
           }
         </div>
 
